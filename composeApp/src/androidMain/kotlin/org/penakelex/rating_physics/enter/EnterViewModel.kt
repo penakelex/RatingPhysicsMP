@@ -7,12 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import org.penakelex.rating_physics.util.getFileNameByUri
 import org.penakelex.rating_physics.util.saveFileToCache
-import org.penakelex.ratingphysics.feature_rating.presentation.enter.FileState
 import java.io.IOException
 
 class EnterViewModel(
@@ -25,7 +23,7 @@ class EnterViewModel(
     val file: State<FileState> = _file
 
     private val _eventFlow = MutableSharedFlow<UIEvent>()
-    val eventFlow: SharedFlow<UIEvent> = _eventFlow.asSharedFlow()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: EnterEvent) {
         when (event) {
@@ -56,7 +54,7 @@ class EnterViewModel(
                     ) else file.value.copy(
                         uri = uri,
                         isValid = true,
-                        name = fileName
+                        name = fileName,
                     )
             }
 

@@ -2,7 +2,6 @@ package org.penakelex.rating_physics.data.repository
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.engine.cio.FailToConnectException
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
@@ -54,7 +53,7 @@ class RatingRepositoryImplementation : RatingRepository {
 
                 contentType(ContentType.MultiPart.Mixed)
             }
-        } catch (exception: FailToConnectException) {
+        } catch (exception: Exception) {
             exception.printStackTrace()
             throw CanNotAccessServerException("Can't access server")
         }

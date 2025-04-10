@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -27,21 +26,20 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun DataCategory(
-    isOpened: MutableState<Boolean>,
+    isOpened: Boolean,
+    onClick: () -> Unit,
     name: String,
     categoryValues: List<String>,
     modifier: Modifier = Modifier,
 ) {
     val rotationAngle = animateFloatAsState(
-        targetValue = if (isOpened.value) 180f else 0f,
+        targetValue = if (isOpened) 180f else 0f,
         animationSpec = tween(durationMillis = 300),
     )
 
     Row(
         modifier = modifier
-            .clickable {
-                isOpened.value = !isOpened.value
-            },
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -62,7 +60,7 @@ fun DataCategory(
     }
 
     AnimatedVisibility(
-        visible = isOpened.value,
+        visible = isOpened,
         enter = expandVertically(),
         exit = shrinkVertically(),
     ) {

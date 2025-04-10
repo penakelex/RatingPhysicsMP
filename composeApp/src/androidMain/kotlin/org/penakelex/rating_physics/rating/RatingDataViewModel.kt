@@ -1,6 +1,5 @@
 package org.penakelex.rating_physics.rating
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -18,8 +17,7 @@ class RatingDataViewModel(
     private val ratingUseCases: RatingUseCases,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _ratingData: MutableState<RatingData?> = mutableStateOf(null)
-    val ratingData: State<RatingData?> = _ratingData
+    lateinit var ratingData: RatingData
 
     private val _data = mutableStateOf(DataState.LoadingData)
     val data: State<DataState> = _data
@@ -33,8 +31,7 @@ class RatingDataViewModel(
         } else {
             this.viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    _ratingData.value = ratingUseCases
-                        .getRatingData(password, File(filePath).readBytes())
+                    ratingData = ratingUseCases.getRatingData(password, File(filePath).readBytes())
                     _data.value = DataState.LoadedData
                 } catch (exception: InvalidPasswordException) {
                     exception.printStackTrace()

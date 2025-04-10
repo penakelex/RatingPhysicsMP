@@ -10,15 +10,25 @@ import org.penakelex.rating_physics.domain.use_case.GetRatingDataUseCase
 import org.penakelex.rating_physics.domain.use_case.RatingUseCases
 import org.penakelex.rating_physics.enter.EnterViewModel
 import org.penakelex.rating_physics.rating.RatingDataViewModel
+import org.penakelex.rating_physics.settings.SettingsViewModel
 
-val appModule = module {
-    singleOf(::RatingRepositoryImplementation) { bind<RatingRepository>() }
+val dataModule = module {
+    singleOf(::RatingRepositoryImplementation) {
+        bind<RatingRepository>()
+    }
+}
+
+val domainModule = module {
     single {
         val ratingRepository = get<RatingRepository>()
         RatingUseCases(
             getRatingData = GetRatingDataUseCase(ratingRepository)
         )
     }
+}
+
+val appModule = module {
     viewModelOf(::EnterViewModel)
     viewModelOf(::RatingDataViewModel)
+    viewModelOf(::SettingsViewModel)
 }

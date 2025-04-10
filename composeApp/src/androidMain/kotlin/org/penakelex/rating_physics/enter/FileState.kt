@@ -1,4 +1,4 @@
-package org.penakelex.ratingphysics.feature_rating.presentation.enter
+package org.penakelex.rating_physics.enter
 
 import android.net.Uri
 

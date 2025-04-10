@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -41,7 +41,6 @@ fun RatingDataScreen(
     navController: NavController,
     viewModel: RatingDataViewModel = koinViewModel(),
 ) {
-    val ratingData = viewModel.ratingData.value
     val dataState = viewModel.data.value
 
     val isPracticalLessonsCategoryOpened = remember {
@@ -60,6 +59,8 @@ fun RatingDataScreen(
                 .padding(12.dp)
                 .fillMaxSize()
         ) {
+            //TODO: Вынести в отдельный файл
+
             Row(
                 modifier = Modifier
                     .clickable {
@@ -93,15 +94,17 @@ fun RatingDataScreen(
                     ) {
                         CircularProgressIndicator(
                             modifier = Modifier.width(64.dp),
-                            color = MaterialTheme.colorScheme.secondary,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
                         )
                     }
                 }
 
                 DataState.LoadedData -> {
+                    //TODO: Перенести в отдельный файл
+
+                    val ratingData = viewModel.ratingData
+
                     val dataList = listOf(
-                        stringResource(R.string.full_name_title) to ratingData!!.fullName,
+                        stringResource(R.string.full_name_title) to ratingData.fullName,
                         stringResource(R.string.group_title) to ratingData.group,
                         stringResource(R.string.summary_title) to ratingData.summary,
                         stringResource(R.string.rating_group_title) to ratingData.ratingGroup,
@@ -143,7 +146,8 @@ fun RatingDataScreen(
                                     )
                                     append(value)
                                 },
-                                fontSize = 28.sp
+                                fontSize = 28.sp,
+                                color = Color.Black,
                             )
 
                             if (index != dataList.lastIndex)
@@ -151,20 +155,25 @@ fun RatingDataScreen(
                         }
 
                         item {
-                            val values = ratingData.practicalLessons.map { (notAttend, tasks) ->
-                                buildString {
-                                    append(tasks ?: stringResource(R.string.no_data_label))
-                                    if (notAttend) {
-                                        append(' ')
-                                        append(stringResource(R.string.was_not_in_class_label))
+                            val values = ratingData.practicalLessons
+                                .map { (notAttend, tasks) ->
+                                    buildString {
+                                        append(tasks ?: stringResource(R.string.no_data_label))
+                                        if (notAttend) {
+                                            append(' ')
+                                            append(stringResource(R.string.was_not_in_class_label))
+                                        }
                                     }
                                 }
-                            }
 
                             DataCategory(
                                 modifier = Modifier
                                     .padding(top = 6.dp),
-                                isOpened = isPracticalLessonsCategoryOpened,
+                                onClick = {
+                                    isPracticalLessonsCategoryOpened.value =
+                                        !isPracticalLessonsCategoryOpened.value
+                                },
+                                isOpened = isPracticalLessonsCategoryOpened.value,
                                 name = stringResource(R.string.practical_lessons_title),
                                 categoryValues = values,
                             )
@@ -174,7 +183,10 @@ fun RatingDataScreen(
                             DataCategory(
                                 modifier = Modifier
                                     .padding(top = 6.dp),
-                                isOpened = isCgtsCategoryOpened,
+                                onClick = {
+                                    isCgtsCategoryOpened.value = !isCgtsCategoryOpened.value
+                                },
+                                isOpened = isCgtsCategoryOpened.value,
                                 name = stringResource(R.string.cgt_title),
                                 categoryValues = ratingData.cgts.map {
                                     it?.toString() ?: stringResource(R.string.no_data_label)

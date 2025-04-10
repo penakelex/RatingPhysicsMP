@@ -28,11 +28,12 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
+            implementation(libs.androidx.datastore.preferences)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.coroutines.android)
-
             implementation(libs.koin.androidx.compose)
+            implementation(libs.androidx.core.splashscreen)
+            implementation(libs.coil.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -40,7 +41,6 @@ kotlin {
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
@@ -59,7 +59,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
     packaging {
         resources {
@@ -77,10 +77,6 @@ android {
     }
 }
 
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
-
 compose.desktop {
     application {
         mainClass = "org.penakelex.rating_physics.MainKt"
@@ -89,6 +85,10 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "org.penakelex.rating_physics"
             packageVersion = "1.0.0"
+
+            windows {
+                iconFile.set(project.file("resources/ear-trumpet-light.ico"))
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RatingPhysics</string>
-    <string name="password_title">Пароль:</string>
-    <string name="password_hint">Номер в группе + Номер группы (например, 1401)</string>
+    <string name="password_title">Пароль</string>
+    <string name="password_hint">№ в группе + № группы</string>
     <string name="file_title">Файл:</string>
     <string name="file_not_chosen_hint">(Не выбран)</string>
     <string name="next_button_text">Далее</string>
@@ -25,4 +25,14 @@
     <string name="cgt_title">РГЗ</string>
     <string name="student_not_found_label">Не найден студент с данным паролем</string>
     <string name="cant_access_server_label">Не удаётся подключиться к серверу</string>
+    <string name="write_to_developer_label">Написать разработчику</string>
+    <string name="developer_label">Разработчик</string>
+    <string name="developer_name">Алексей Конинский</string>
+    <string name="theme_label">Тема</string>
+    <string name="light_theme_label">Светлая</string>
+    <string name="dark_theme_label">Тёмная</string>
+    <string name="system_theme_label">Системная</string>
+    <string name="cancel_label">Отмена</string>
+    <string name="accept_label">Принять</string>
+    <string name="loading_label">Загрузка</string>
 </resources>
