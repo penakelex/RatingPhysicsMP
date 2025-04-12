@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import org.penakelex.rating_physics.R
-import org.penakelex.rating_physics.rating.components.DataCategory
+import org.penakelex.rating_physics.rating.components.ListRatingInformation
 
 @Composable
 fun RatingDataScreen(
@@ -166,7 +166,7 @@ fun RatingDataScreen(
                                     }
                                 }
 
-                            DataCategory(
+                            ListRatingInformation(
                                 modifier = Modifier
                                     .padding(top = 6.dp),
                                 onClick = {
@@ -180,7 +180,7 @@ fun RatingDataScreen(
                         }
 
                         item {
-                            DataCategory(
+                            ListRatingInformation(
                                 modifier = Modifier
                                     .padding(top = 6.dp),
                                 onClick = {

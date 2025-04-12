@@ -9,12 +9,11 @@ coilCompose = "3.1.0"
 compose-multiplatform = "1.7.3"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.4"
+filekitDialogsCompose = "0.10.0-beta01"
+koinCompose = "4.0.3"
 kotlin = "2.1.10"
-material3 = "1.3.2"
 navigationCompose = "2.8.9"
-kotlinx-coroutines = "1.10.1"
 kotlinxCoroutinesAndroid = "1.10.1"
-kotlinxCoroutinesCore = "1.10.1"
 kotlinxSerializationJson = "1.8.0"
 ktorBom = "3.1.0"
 koinAndroidxCompose = "3.5.3"
@@ -27,17 +26,15 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekitDialogsCompose" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinCompose" }
 
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-bom = { module = "io.ktor:ktor-bom", version.ref = "ktorBom" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio" }
-androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

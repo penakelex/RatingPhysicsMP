@@ -1,12 +1,15 @@
 package org.penakelex.rating_physics.enter.components
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Contrast
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import org.penakelex.rating_physics.R
@@ -31,13 +34,11 @@ fun ThemeInformation(
         Icon(
             modifier = Modifier
                 .weight(1f),
-            painter = painterResource(
-                when (theme) {
-                    ThemeState.Light -> R.drawable.light_theme_icon
-                    ThemeState.Dark -> R.drawable.dark_theme_icon
-                    ThemeState.System -> R.drawable.system_theme_icon
-                }
-            ),
+            imageVector = when (theme) {
+                ThemeState.Light -> Icons.Filled.LightMode
+                ThemeState.Dark -> Icons.Filled.DarkMode
+                ThemeState.System -> Icons.Filled.Contrast
+            },
             contentDescription = "Theme icon",
         )
     }

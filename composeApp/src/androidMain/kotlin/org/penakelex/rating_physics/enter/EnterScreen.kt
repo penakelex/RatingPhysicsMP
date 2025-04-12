@@ -131,11 +131,7 @@ fun EnterScreen(
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onTap = {
-                            viewModel.onEvent(
-                                EnterEvent.ClearPasswordFocus(
-                                    focusManager
-                                )
-                            )
+                            focusManager.clearFocus()
                         },
                     )
                 },

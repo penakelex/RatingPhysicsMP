@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DataCategory(
+fun ListRatingInformation(
     isOpened: Boolean,
     onClick: () -> Unit,
     name: String,

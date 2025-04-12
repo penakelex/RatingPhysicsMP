@@ -18,6 +18,7 @@ class RatingDataViewModel(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     lateinit var ratingData: RatingData
+        private set
 
     private val _data = mutableStateOf(DataState.LoadingData)
     val data: State<DataState> = _data

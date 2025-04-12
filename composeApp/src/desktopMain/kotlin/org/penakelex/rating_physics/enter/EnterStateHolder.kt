@@ -1,21 +1,21 @@
 package org.penakelex.rating_physics.enter
 
-import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import org.penakelex.rating_physics.util.getFileNameByUri
-import org.penakelex.rating_physics.util.saveFileToCache
 import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 
-class EnterViewModel(
-    private val context: Application,
-) : ViewModel() {
+class EnterStateHolder() {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     private val _password = mutableStateOf(PasswordState())
     val password: State<PasswordState> = _password
 
@@ -28,7 +28,7 @@ class EnterViewModel(
     fun onEvent(event: EnterEvent) {
         when (event) {
             is EnterEvent.EnteredPassword -> {
-                val enteredPassword = event.value
+                val enteredPassword = event.password
 
                 val passwordValue =
                     if (enteredPassword.lastOrNull() != '\n') enteredPassword
@@ -42,20 +42,9 @@ class EnterViewModel(
             }
 
             is EnterEvent.FileSelected -> {
-                val uri = event.uri ?: return
-
-                val fileName = getFileNameByUri(uri, context)
-
-                _file.value =
-                    if (fileName == null) file.value.copy(
-                        uri = null,
-                        isValid = false,
-                        name = null,
-                    ) else file.value.copy(
-                        uri = uri,
-                        isValid = true,
-                        name = fileName,
-                    )
+                _file.value = file.value.copy(
+                    path = event.filePath
+                )
             }
 
             is EnterEvent.ValidateData -> {
@@ -72,7 +61,7 @@ class EnterViewModel(
                     isPasswordCorrect = false
                 }
 
-                if (file.uri == null || getFileNameByUri(file.uri, context) == null) {
+                if (file.path.isBlank() || !Files.exists(Paths.get(file.path))) {
                     _file.value = file.copy(isValid = false)
                     isFileValid = false
                 }
@@ -80,26 +69,20 @@ class EnterViewModel(
                 if (!isPasswordCorrect || !isFileValid)
                     return
 
-                val uri = file.uri ?: return
-                val fileName = file.name ?: return
-
-                viewModelScope.launch(Dispatchers.IO) {
-                    val uiEvent = try {
-                        val cachedFileName = saveFileToCache(uri, fileName, context)
-                        UIEvent.ValidateData(password.value.toUInt(), cachedFileName)
+                scope.launch(Dispatchers.IO) {
+                    try {
+                        _eventFlow.emit(UIEvent.ValidateData(password.value.toUInt(), file.path))
                     } catch (exception: IOException) {
                         exception.printStackTrace()
-                        UIEvent.ShowSnackbar("File $fileName not found in given path...")
                     }
-
-                    _eventFlow.emit(uiEvent)
                 }
             }
         }
     }
 
+    fun cancel() = scope.cancel()
+
     sealed class UIEvent {
-        data class ValidateData(val password: UInt, val fileName: String) : UIEvent()
-        data class ShowSnackbar(val message: String) : UIEvent()
+        data class ValidateData(val password: UInt, val filePath: String) : UIEvent()
     }
 }

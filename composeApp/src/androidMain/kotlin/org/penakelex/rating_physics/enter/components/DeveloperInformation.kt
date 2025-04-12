@@ -7,6 +7,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.penakelex.rating_physics.R
@@ -24,8 +25,15 @@ fun DeveloperInformation(modifier: Modifier = Modifier) {
                     ),
                 )
             )
-            append(stringResource(R.string.developer_name))
+            append(
+                AnnotatedString(
+                    text = stringResource(R.string.developer_name),
+                    spanStyle = SpanStyle(
+                        fontStyle = FontStyle.Italic,
+                    )
+                )
+            )
         },
-        fontSize = 16.sp,
+        fontSize = 14.sp,
     )
 }

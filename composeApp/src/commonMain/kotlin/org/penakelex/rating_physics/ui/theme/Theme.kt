@@ -1,17 +1,15 @@
 package org.penakelex.rating_physics.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import org.penakelex.rating_physics.settings.ThemeState
 
-private val lightScheme = lightColorScheme(
+private val lightScheme = ColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,
     primaryContainer = primaryContainerLight,
     onPrimaryContainer = onPrimaryContainerLight,
+    inversePrimary = inversePrimaryLight,
     secondary = secondaryLight,
     onSecondary = onSecondaryLight,
     secondaryContainer = secondaryContainerLight,
@@ -20,32 +18,32 @@ private val lightScheme = lightColorScheme(
     onTertiary = onTertiaryLight,
     tertiaryContainer = tertiaryContainerLight,
     onTertiaryContainer = onTertiaryContainerLight,
-    error = errorLight,
-    onError = onErrorLight,
-    errorContainer = errorContainerLight,
-    onErrorContainer = onErrorContainerLight,
     background = backgroundLight,
     onBackground = onBackgroundLight,
     surface = surfaceLight,
     onSurface = onSurfaceLight,
     surfaceVariant = surfaceVariantLight,
     onSurfaceVariant = onSurfaceVariantLight,
+    surfaceTint = primaryLight,
+    inverseSurface = inverseSurfaceLight,
+    inverseOnSurface = inverseOnSurfaceLight,
+    error = errorLight,
+    onError = onErrorLight,
+    errorContainer = errorContainerLight,
+    onErrorContainer = onErrorContainerLight,
     outline = outlineLight,
     outlineVariant = outlineVariantLight,
     scrim = scrimLight,
-    inverseSurface = inverseSurfaceLight,
-    inverseOnSurface = inverseOnSurfaceLight,
-    inversePrimary = inversePrimaryLight,
-    surfaceDim = surfaceDimLight,
     surfaceBright = surfaceBrightLight,
-    surfaceContainerLowest = surfaceContainerLowestLight,
-    surfaceContainerLow = surfaceContainerLowLight,
     surfaceContainer = surfaceContainerLight,
     surfaceContainerHigh = surfaceContainerHighLight,
     surfaceContainerHighest = surfaceContainerHighestLight,
+    surfaceContainerLow = surfaceContainerLowLight,
+    surfaceContainerLowest = surfaceContainerLowestLight,
+    surfaceDim = surfaceDimLight,
 )
 
-private val darkScheme = darkColorScheme(
+private val darkScheme = ColorScheme(
     primary = primaryDark,
     onPrimary = onPrimaryDark,
     primaryContainer = primaryContainerDark,
@@ -71,6 +69,7 @@ private val darkScheme = darkColorScheme(
     outline = outlineDark,
     outlineVariant = outlineVariantDark,
     scrim = scrimDark,
+    surfaceTint = primaryDark,
     inverseSurface = inverseSurfaceDark,
     inverseOnSurface = inverseOnSurfaceDark,
     inversePrimary = inversePrimaryDark,
@@ -85,19 +84,11 @@ private val darkScheme = darkColorScheme(
 
 @Composable
 fun RatingPhysicsTheme(
-    theme: ThemeState,
+    isDarkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
-    val darkTheme = when (theme) {
-        ThemeState.Light -> false
-        ThemeState.Dark -> true
-        ThemeState.System -> isSystemInDarkTheme()
-    }
-
-    println("Is dark theme: $darkTheme")
-
     MaterialTheme(
-        colorScheme = if (darkTheme) darkScheme else lightScheme,
+        colorScheme = if (isDarkTheme) darkScheme else lightScheme,
         typography = AppTypography,
         content = content,
     )

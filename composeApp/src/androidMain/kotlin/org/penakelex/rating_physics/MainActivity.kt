@@ -3,6 +3,7 @@ package org.penakelex.rating_physics
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -15,6 +16,7 @@ import org.koin.compose.KoinContext
 import org.penakelex.rating_physics.enter.EnterScreen
 import org.penakelex.rating_physics.rating.RatingDataScreen
 import org.penakelex.rating_physics.settings.SettingsViewModel
+import org.penakelex.rating_physics.settings.isDarkTheme
 import org.penakelex.rating_physics.ui.theme.RatingPhysicsTheme
 import org.penakelex.rating_physics.util.Screen
 
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 val theme = settingsViewModel.themeState
                     .collectAsStateWithLifecycle()
 
-                RatingPhysicsTheme(theme = theme.value) {
+                RatingPhysicsTheme(theme.value.isDarkTheme(isSystemInDarkTheme())) {
                     val navController = rememberNavController()
 
                     NavHost(
