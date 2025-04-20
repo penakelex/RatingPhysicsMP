@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -34,10 +35,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             KoinContext {
-                val theme = settingsViewModel.themeState
+                val theme by settingsViewModel.themeState
                     .collectAsStateWithLifecycle()
 
-                RatingPhysicsTheme(theme.value.isDarkTheme(isSystemInDarkTheme())) {
+                RatingPhysicsTheme(theme.isDarkTheme(isSystemInDarkTheme())) {
                     val navController = rememberNavController()
 
                     NavHost(

@@ -1,10 +1,11 @@
 package org.penakelex.rating_physics.ui.theme
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val lightScheme = ColorScheme(
+private val lightScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,
     primaryContainer = primaryContainerLight,
@@ -24,7 +25,6 @@ private val lightScheme = ColorScheme(
     onSurface = onSurfaceLight,
     surfaceVariant = surfaceVariantLight,
     onSurfaceVariant = onSurfaceVariantLight,
-    surfaceTint = primaryLight,
     inverseSurface = inverseSurfaceLight,
     inverseOnSurface = inverseOnSurfaceLight,
     error = errorLight,
@@ -43,7 +43,7 @@ private val lightScheme = ColorScheme(
     surfaceDim = surfaceDimLight,
 )
 
-private val darkScheme = ColorScheme(
+private val darkScheme = darkColorScheme(
     primary = primaryDark,
     onPrimary = onPrimaryDark,
     primaryContainer = primaryContainerDark,
@@ -69,7 +69,6 @@ private val darkScheme = ColorScheme(
     outline = outlineDark,
     outlineVariant = outlineVariantDark,
     scrim = scrimDark,
-    surfaceTint = primaryDark,
     inverseSurface = inverseSurfaceDark,
     inverseOnSurface = inverseOnSurfaceDark,
     inversePrimary = inversePrimaryDark,

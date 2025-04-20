@@ -1,7 +1,6 @@
 package org.penakelex.rating_physics
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,7 +48,7 @@ fun main() = singleWindowApplication(
 
         val ratingStateHolder = rememberRatingStateHolder()
 
-        RatingPhysicsTheme(isDarkTheme = isSystemInDarkTheme()) {
+        RatingPhysicsTheme(isDarkTheme = false) {
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
