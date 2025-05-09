@@ -8,6 +8,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+fun getFileMimeType(uri: Uri, context: Context): String? =
+    context.contentResolver.getType(uri)
+
 fun getFileNameByUri(uri: Uri, context: Context): String? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         context.contentResolver.query(uri, null, null, null)

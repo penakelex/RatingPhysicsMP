@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,14 +28,13 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                settingsViewModel.isThemeLoaded
+               !settingsViewModel.isInitialDataLoaded()
             }
         }
 
         setContent {
             KoinContext {
                 val theme by settingsViewModel.themeState
-                    .collectAsStateWithLifecycle()
 
                 RatingPhysicsTheme(theme.isDarkTheme(isSystemInDarkTheme())) {
                     val navController = rememberNavController()
@@ -50,15 +48,18 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = "%s?password={password}&filePath={filePath}"
+                            route = "%s?password={password}&path={path}&type={type}"
                                 .format(Screen.RatingDataScreen.route),
                             arguments = listOf(
                                 navArgument(name = "password") {
-                                    type = NavType.Companion.IntType
+                                    type = NavType.IntType
                                 },
-                                navArgument(name = "filePath") {
-                                    type = NavType.Companion.StringType
+                                navArgument(name = "path") {
+                                    type = NavType.StringType
                                 },
+                                navArgument(name = "type") {
+                                    type = NavType.StringType
+                                }
                             )
                         ) {
                             RatingDataScreen(navController)

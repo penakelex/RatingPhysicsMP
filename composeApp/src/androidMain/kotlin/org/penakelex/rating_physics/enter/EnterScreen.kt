@@ -1,5 +1,6 @@
 package org.penakelex.rating_physics.enter
 
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -19,7 +20,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,11 +28,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import coil3.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import org.penakelex.rating_physics.domain.repository.CipheredFileType
 import org.penakelex.rating_physics.enter.components.DrawerContent
 import org.penakelex.rating_physics.enter.components.FileSelectionButton
 import org.penakelex.rating_physics.enter.components.MenuIcon
@@ -44,6 +46,7 @@ import org.penakelex.rating_physics.settings.SettingsViewModel
 import org.penakelex.rating_physics.util.Screen
 
 const val TELEGRAM_URL = "https://t.me/penakelex"
+const val APPLICATION_UPDATE_URL = "http://45.90.46.187:8000/rating_physics/get_apps"
 
 @Composable
 fun EnterScreen(
@@ -59,11 +62,11 @@ fun EnterScreen(
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is EnterViewModel.UIEvent.ValidateData -> {
-                    val (studentPassword, fileName) = event
+                    val (studentPassword, fileName, fileType) = event
                     val route = Screen.RatingDataScreen.route
 
                     navController.navigate(
-                        route = "${route}?password=${studentPassword}&filePath=${fileName}"
+                        "${route}?password=${studentPassword}&path=${fileName}&type=${fileType}"
                     )
                 }
 
@@ -90,7 +93,7 @@ fun EnterScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    val theme = settingsViewModel.themeState.collectAsState()
+    val theme = settingsViewModel.themeState
 
     val isThemeSelectionDialogOpened = remember {
         mutableStateOf(false)
@@ -117,11 +120,27 @@ fun EnterScreen(
             )
 
             DrawerContent(
-                version = version,
+                currentVersion = version,
+                latestVersion = settingsViewModel.latestVersion,
                 applicationIconPainter = applicationIconPainter,
                 theme = theme.value,
                 isThemeSelectionDialogOpened = isThemeSelectionDialogOpened,
-                openUrlLauncher = openUrlLauncher,
+                onDeveloperContactClick = {
+                    openUrlLauncher.launch(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            TELEGRAM_URL.toUri(),
+                        )
+                    )
+                },
+                onApplicationUpdateClick = {
+                    openUrlLauncher.launch(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            APPLICATION_UPDATE_URL.toUri(),
+                        )
+                    )
+                }
             )
         }
     ) {
@@ -170,7 +189,8 @@ fun EnterScreen(
                         .fillMaxWidth()
                         .padding(bottom = 10.dp)
                         .clickable {
-                            fileSelectLauncher.launch(arrayOf("application/octet-stream"))
+                            fileSelectLauncher
+                                .launch(CipheredFileType.entries.map { it.mime }.toTypedArray())
                         },
                     fileName = file.name,
                     isFileValid = file.isValid,

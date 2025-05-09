@@ -50,7 +50,7 @@ fun ThemeSelectionDialog(
     ) {
         Surface(
             shape = RoundedCornerShape(18.dp),
-            shadowElevation = 2.dp,
+            //shadowElevation = 2.dp,
         ) {
             Column(
                 modifier = Modifier

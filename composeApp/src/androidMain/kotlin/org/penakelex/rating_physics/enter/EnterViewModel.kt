@@ -9,13 +9,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import org.penakelex.rating_physics.domain.repository.CipheredFileType
+import org.penakelex.rating_physics.util.getFileMimeType
 import org.penakelex.rating_physics.util.getFileNameByUri
 import org.penakelex.rating_physics.util.saveFileToCache
 import java.io.IOException
 
-class EnterViewModel(
-    private val context: Application,
-) : ViewModel() {
+class EnterViewModel(private val context: Application) : ViewModel() {
     private val _password = mutableStateOf(PasswordState())
     val password: State<PasswordState> = _password
 
@@ -77,16 +77,23 @@ class EnterViewModel(
                     isFileValid = false
                 }
 
+
                 if (!isPasswordCorrect || !isFileValid)
                     return
 
                 val uri = file.uri ?: return
                 val fileName = file.name ?: return
 
+                val fileType = when (getFileMimeType(uri, context)) {
+                    CipheredFileType.Rpf.mime -> CipheredFileType.Rpf
+                    CipheredFileType.Zip.mime -> CipheredFileType.Zip
+                    else -> return
+                }
+
                 viewModelScope.launch(Dispatchers.IO) {
                     val uiEvent = try {
                         val cachedFileName = saveFileToCache(uri, fileName, context)
-                        UIEvent.ValidateData(password.value.toUInt(), cachedFileName)
+                        UIEvent.ValidateData(password.value.toUInt(), cachedFileName, fileType)
                     } catch (exception: IOException) {
                         exception.printStackTrace()
                         UIEvent.ShowSnackbar("File $fileName not found in given path...")
@@ -99,7 +106,12 @@ class EnterViewModel(
     }
 
     sealed class UIEvent {
-        data class ValidateData(val password: UInt, val fileName: String) : UIEvent()
+        data class ValidateData(
+            val password: UInt,
+            val fileName: String,
+            val fileType: CipheredFileType
+        ) : UIEvent()
+
         data class ShowSnackbar(val message: String) : UIEvent()
     }
 }

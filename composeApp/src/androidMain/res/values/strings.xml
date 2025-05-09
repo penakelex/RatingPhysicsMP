@@ -3,7 +3,7 @@
     <string name="password_title">Пароль</string>
     <string name="password_hint">№ в группе + № группы</string>
     <string name="file_title">Файл:</string>
-    <string name="file_not_chosen_hint">(Не выбран)</string>
+    <string name="file_not_chosen_hint">Выбрать (rpf/zip)</string>
     <string name="next_button_text">Далее</string>
     <string name="back_button_text">Назад</string>
     <string name="full_name_title">ФИО</string>
@@ -35,4 +35,5 @@
     <string name="cancel_label">Отмена</string>
     <string name="accept_label">Принять</string>
     <string name="loading_label">Загрузка</string>
+    <string name="update_label">Обновить</string>
 </resources>

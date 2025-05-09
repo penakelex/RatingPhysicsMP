@@ -1,8 +1,5 @@
 package org.penakelex.rating_physics.enter.components
 
-import android.content.Intent
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.result.ActivityResult
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,17 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
-import org.penakelex.rating_physics.enter.TELEGRAM_URL
 import org.penakelex.rating_physics.settings.ThemeState
 
 @Composable
 fun DrawerContent(
-    version: String,
+    currentVersion: String,
+    latestVersion: String?,
     applicationIconPainter: Painter,
     theme: ThemeState,
     isThemeSelectionDialogOpened: MutableState<Boolean>,
-    openUrlLauncher: ManagedActivityResultLauncher<Intent, ActivityResult>,
+    onDeveloperContactClick: () -> Unit,
+    onApplicationUpdateClick: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -50,7 +47,7 @@ fun DrawerContent(
                     .fillMaxWidth()
                     .widthIn(),
                 applicationIconPainter = applicationIconPainter,
-                version = version
+                version = currentVersion
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -58,14 +55,7 @@ fun DrawerContent(
             DeveloperContact(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        openUrlLauncher.launch(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                TELEGRAM_URL.toUri(),
-                            )
-                        )
-                    },
+                    .clickable(onClick = onDeveloperContactClick),
             )
 
             Spacer(modifier = Modifier.height(18.dp))
@@ -77,6 +67,18 @@ fun DrawerContent(
                     },
                 theme = theme,
             )
+
+            if (latestVersion != null && latestVersion != currentVersion) {
+                Spacer(modifier = Modifier.height(18.dp))
+
+                ApplicationUpdateButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = onApplicationUpdateClick),
+                    currentVersion = currentVersion,
+                    latestVersion = latestVersion,
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 

@@ -37,7 +37,6 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.ui)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(projects.shared)
@@ -78,7 +77,7 @@ compose.desktop {
         mainClass = "org.penakelex.rating_physics.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Exe)
+            targetFormats(TargetFormat.Msi)
             packageName = "RatingPhysics"
             packageVersion = "1.0.0"
 

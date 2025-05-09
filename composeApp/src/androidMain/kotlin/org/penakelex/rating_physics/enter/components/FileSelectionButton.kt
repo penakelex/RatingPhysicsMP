@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.penakelex.rating_physics.R
-import org.penakelex.rating_physics.ui.theme.onSurfaceLight
 
 @Composable
 fun FileSelectionButton(
@@ -40,9 +39,7 @@ fun FileSelectionButton(
         Text(
             text = fileName ?: stringResource(R.string.file_not_chosen_hint),
             fontSize = 24.sp,
-            color = if (isFileValid) MaterialTheme.colorScheme.onSurface.also {
-                println("Is file text in light theme: ${it == onSurfaceLight} ${it.value.toString(16)}")
-            }
+            color = if (isFileValid) MaterialTheme.colorScheme.onSurface
             else MaterialTheme.colorScheme.error,
         )
     }
